@@ -139,7 +139,9 @@ class SalesAnalyst
   memoize :day_created
 
   def day_count
-    day_created.each_with_object(Hash.new(0)) {|day, invoices| invoices[day] +=1}
+    day_created.each_with_object(Hash.new(0)) do |day, invoices|
+      invoices[day] +=1
+    end
   end
   memoize :day_count
 

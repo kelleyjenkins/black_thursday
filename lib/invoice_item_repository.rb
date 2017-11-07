@@ -11,7 +11,8 @@ class InvoiceItemRepository
   end
 
   def items_from_csv(invoice_items_file)
-    CSV.foreach(invoice_items_file, headers: true, header_converters: :symbol) do |row|
+    CSV.foreach(invoice_items_file, headers: true,
+    header_converters: :symbol) do |row|
       @invoice_items << InvoiceItem.new(row, self)
     end
   end

@@ -10,7 +10,8 @@ class CustomerRepository
   end
 
   def items_from_csv(customers_file)
-    CSV.foreach(customers_file, headers: true, header_converters: :symbol) do |row|
+    CSV.foreach(customers_file, headers: true,
+    header_converters: :symbol) do |row|
       @customers << Customer.new(row, self)
     end
   end
@@ -38,7 +39,7 @@ class CustomerRepository
   def merchant_customers(customer_id)
     sales_engine.find_customer_merchant(customer_id)
   end
-  
+
   def inspect
     "#{self.class} #{customers.size} rows"
   end

@@ -11,7 +11,8 @@ class MerchantRepository
   end
 
   def merchants_from_csv(merchant_file)
-    CSV.foreach(merchant_file, headers: true, header_converters: :symbol) do |row|
+    CSV.foreach(merchant_file, headers: true,
+     header_converters: :symbol) do |row|
       @merchants << Merchant.new(row, self)
     end
     @merchants

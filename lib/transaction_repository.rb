@@ -11,7 +11,8 @@ class TransactionRepository
   end
 
   def items_from_csv(transactions_file)
-    CSV.foreach(transactions_file, headers: true, header_converters: :symbol) do |row|
+    CSV.foreach(transactions_file, headers: true,
+    header_converters: :symbol) do |row|
       @transactions << Transaction.new(row, self)
     end
   end
@@ -29,7 +30,9 @@ class TransactionRepository
   end
 
   def find_all_by_credit_card_number(credit_card_number)
-    @transactions.find_all {|transaction| transaction.credit_card_number == credit_card_number}
+    @transactions.find_all do |transaction|
+      transaction.credit_card_number == credit_card_number
+    end
   end
 
   def find_all_by_result(result)
