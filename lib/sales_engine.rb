@@ -134,4 +134,8 @@ class SalesEngine
     #possible refactor here to do dollar amount
   end
 
+  def find_invoice_items_for_invoice(invoice_id)
+    invoice_items.find_all_by_invoice_id(invoice_id)
+  end
+
 end
