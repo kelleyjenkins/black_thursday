@@ -47,5 +47,7 @@ class Invoice
   end
   memoize :total
 
-
+  def invoice_items
+    invoice_repo.invoiced_item(self.id)
+  end
 end

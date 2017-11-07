@@ -58,6 +58,10 @@ class InvoiceRepository
     sales_engine.total_invoice_amount(invoice_id)
   end
 
+  def invoiced_item(invoice_id)
+    sales_engine.find_invoice_items_for_invoice(invoice_id)
+  end
+
   def inspect
     "#{self.class} #{invoices.size} rows"
   end

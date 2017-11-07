@@ -218,9 +218,42 @@ class SalesAnalyst
     total_revenue_by_merchant(merchant_id)
   end
 
-  # def most_sold_item_for_merchant(merchant_id)
-  #     sales_engine.items.items.find_all_by_merchant_id(merchant_id)
-  #
-  #
-  # end
+  def seek_merchant_invoices(merchant_id)
+    sales_engine.merchants.find_by_id(merchant_id).invoices
+  end
+
+  def seek_paid_invoices(invoices)
+    invoices.find_all {|invoice| invoice.is_paid_in_full?}
+  end
+
+  def seek_invoice_items_for_paid_invoices(paid_invoices)
+    paid_invoices.map {|invoice| invoice.invoice_items}.flatten
+  end
+
+  def seek_item_quantity(invoices_i_items)
+    item_quantity = {}
+    invoices_i_items.each do |invoice_item|
+      item_quantity[invoice_item.item_id] = invoice_item.quantity.to_i
+    end
+    item_quantity
+  end
+
+  def sort_item_values(item_quantity)
+    item_quantity.sort_by {|key, value| - value}
+  end
+
+  def find_max_items(sorted)
+    max_quantity = sorted.first[-1]
+    maxes = sorted.find_all {|pair| pair[1] == max_quantity}
+    maxes.map {|pair| sales_engine.items.find_by_id(pair[0])}
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    invoices = seek_merchant_invoices(merchant_id)
+    paid_invoices =seek_paid_invoices(invoices)
+    invoices_i_items = seek_invoice_items_for_paid_invoices(paid_invoices)
+    item_quantity = seek_item_quantity(invoices_i_items)
+    sorted = sort_item_values(item_quantity)
+    find_max_items(sorted)
+  end
 end
