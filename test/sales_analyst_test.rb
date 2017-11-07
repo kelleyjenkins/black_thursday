@@ -146,13 +146,28 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_can_find_top_revenue_earners
     result = setup.top_revenue_earners(20)
+
+    assert_equal 18, result.count
     assert_equal "Shopin1901", result[0].name
   end
 
   def test_it_can_return_merchants_with_pending_invoices
     result = setup.merchants_with_pending_invoices
 
+    assert_equal 4, result.count
     assert_equal "Keckenbauer", result[0].name
   end
 
+  def test_it_can_find_merchant_with_only_one_item
+    result = setup.merchants_with_only_one_item
+
+    assert_equal 2, result.count
+    assert_equal "Shopin1901", result[0].name
+  end
+
+  def test_it_can_find_merchants_with_only_one_item_in_month
+    result = setup.merchants_with_only_one_item_registered_in_month("December")
+
+    assert_equal 1, result.count
+  end
 end
