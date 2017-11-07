@@ -239,5 +239,16 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 2, s_a.most_sold_item_for_merchant(12334194).count
   end
 
-  
+  def test_it_can_find_most_sold_item_by_merchant
+    files = ({:items => "./data/items.csv",
+              :merchants => "./data/merchants.csv",
+              :invoices => "./data/invoices.csv",
+              :invoice_items => "./data/invoice_items.csv",
+              :transactions => "./data/transactions.csv",
+              :customers => "./data/customers.csv"})
+    se = SalesEngine.from_csv(files)
+    s_a = SalesAnalyst.new(se)
+
+    assert_equal 263404585, s_a.best_item_for_merchant(12334194).id
+  end
 end
