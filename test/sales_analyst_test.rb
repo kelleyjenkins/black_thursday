@@ -144,6 +144,19 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 0.528913e4, setup.total_revenue_by_date("2012-11-23")
   end
 
+  def test_it_can_total_revenue_by_merchant
+    files = ({:items => "./data/items.csv",
+              :merchants => "./data/merchants.csv",
+              :invoices => "./data/invoices.csv",
+              :invoice_items => "./data/invoice_items.csv",
+              :transactions => "./data/transactions.csv",
+              :customers => "./data/customers.csv"})
+    se = SalesEngine.from_csv(files)
+    s_a = SalesAnalyst.new(se)
+
+    assert_equal BigDecimal.new('0.815724e5'), s_a.total_revenue_by_merchant(12334194)
+  end
+
   def test_it_can_find_top_revenue_earners
     result = setup.top_revenue_earners(20)
 
@@ -169,5 +182,18 @@ class SalesAnalystTest < Minitest::Test
     result = setup.merchants_with_only_one_item_registered_in_month("December")
 
     assert_equal 1, result.count
+  end
+
+  def test_it_can_find_total_revenue_for_merchant
+    files = ({:items => "./data/items.csv",
+              :merchants => "./data/merchants.csv",
+              :invoices => "./data/invoices.csv",
+              :invoice_items => "./data/invoice_items.csv",
+              :transactions => "./data/transactions.csv",
+              :customers => "./data/customers.csv"})
+    se = SalesEngine.from_csv(files)
+    s_a = SalesAnalyst.new(se)
+
+    assert_equal BigDecimal.new('0.815724e5'), s_a.revenue_by_merchant(12334194)
   end
 end

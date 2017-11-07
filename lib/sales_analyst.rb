@@ -213,4 +213,14 @@ class SalesAnalyst
       merchant.created_at.strftime("%B") == month
     end
   end
+
+  def revenue_by_merchant(merchant_id)
+    total_revenue_by_merchant(merchant_id)
+  end
+
+  # def most_sold_item_for_merchant(merchant_id)
+  #     sales_engine.items.items.find_all_by_merchant_id(merchant_id)
+  #
+  #
+  # end
 end
