@@ -223,16 +223,13 @@ class SalesAnalyst
   end
 
   def seek_paid_invoices(invoices)
-    invoices.find_all {|invoice| invoice.is_paid_in_full?}
+    full_paid = invoices.find_all {|invoice| invoice.is_paid_in_full?}
+    full_paid.map {|invoice| invoice.invoice_items}.flatten
   end
 
-  def seek_invoiced_items_for_paid_invoices(paid_invoices)
-    paid_invoices.map {|invoice| invoice.invoice_items}.flatten
-  end
-
-  def seek_item_quantity(invoices_i_items)
+  def seek_item_quantity(paid_invoices)
     item_quantity = {}
-    invoices_i_items.each do |invoice_item|
+    paid_invoices.each do |invoice_item|
       item_quantity[invoice_item.item_id] = invoice_item.quantity.to_i
     end
     item_quantity
@@ -251,15 +248,14 @@ class SalesAnalyst
   def most_sold_item_for_merchant(merchant_id)
     invoices = seek_merchant_invoices(merchant_id)
     paid_invoices =seek_paid_invoices(invoices)
-    invoices_i_items = seek_invoiced_items_for_paid_invoices(paid_invoices)
-    item_quantity = seek_item_quantity(invoices_i_items)
+    item_quantity = seek_item_quantity(paid_invoices)
     sorted = sort_item_values(item_quantity)
     find_max_items(sorted)
   end
 
-  def seek_item_total(invoices_i_items)
+  def seek_item_total(paid_invoices)
     item_total ={}
-    invoices_i_items.each do |invoice_item|
+    paid_invoices.each do |invoice_item|
       item_total[invoice_item.item_id] = invoice_item.total
     end
     item_total
@@ -271,9 +267,8 @@ class SalesAnalyst
 
   def best_item_for_merchant(merchant_id)
     invoices = seek_merchant_invoices(merchant_id)
-    paid_invoices =seek_paid_invoices(invoices)
-    invoices_i_items = seek_invoiced_items_for_paid_invoices(paid_invoices)
-    item_total = seek_item_total(invoices_i_items)
+    paid_invoices = seek_paid_invoices(invoices)
+    item_total = seek_item_total(paid_invoices)
     sorted = sort_item_values(item_total)
     find_item_for_id(sorted).first
   end

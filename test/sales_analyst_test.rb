@@ -222,7 +222,7 @@ class SalesAnalystTest < Minitest::Test
     s_a = SalesAnalyst.new(se)
     result = s_a.seek_merchant_invoices(12334194)
 
-    assert_equal 11, s_a.seek_paid_invoices(result).count
+    assert_equal 36, s_a.seek_paid_invoices(result).count
   end
 
   def test_it_can_find_most_sold_item_by_merchant
