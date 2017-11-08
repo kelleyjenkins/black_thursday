@@ -21,6 +21,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_it_averages_items_per_merchant
     assert_equal 0.39, setup.average_items_per_merchant
+    assert_instance_of Float, setup.average_items_per_merchant
   end
 
   def test_item_count_per_merchants
@@ -45,10 +46,13 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_std_deviates
+    result = setup.average_items_per_merchant_standard_deviation
+    assert_instance_of Float, result
     assert_equal 0.43, setup.average_items_per_merchant_standard_deviation
   end
 
   def test_merchant_list_with_high_item_count
+    assert_instance_of Merchant, setup.merchants_with_high_item_count.first
     assert_equal 2, setup.merchants_with_high_item_count.count
   end
 
@@ -76,6 +80,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_golden_items
+    assert_equal 263547824, setup.golden_items.first.id
     assert_equal 1, setup.golden_items.count
   end
 
@@ -122,16 +127,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_can_find_top_days_by_invoice_count
-    files = ({:items => "./data/items.csv",
-              :merchants => "./data/merchants.csv",
-              :invoices => "./data/invoices.csv",
-              :invoice_items => "./test/fixture/invoice_item_fixture.csv",
-              :transactions => "./test/fixture/transaction_fixture.csv",
-              :customers => "./test/fixture/customer_fixture.csv"})
-    se = SalesEngine.from_csv(files)
-    s_a = SalesAnalyst.new(se)
-
-    assert_equal ["Wednesday"], s_a.top_days_by_invoice_count
+    assert_equal ["Friday"], setup.top_days_by_invoice_count
   end
 
   def test_invoices_have_a_status
@@ -196,7 +192,6 @@ class SalesAnalystTest < Minitest::Test
 
     assert_equal BigDecimal.new('0.815724e5'), s_a.revenue_by_merchant(12334194)
   end
-
 
   def test_it_can_find_merchant_invoices
     files = ({:items => "./data/items.csv",

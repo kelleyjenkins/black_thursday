@@ -1,5 +1,5 @@
-require_relative "item"
-require "csv"
+require_relative 'item'
+require 'csv'
 
 class ItemRepository
   attr_reader :items, :sales_engine

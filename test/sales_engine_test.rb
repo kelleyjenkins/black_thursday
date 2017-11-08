@@ -24,6 +24,10 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of MerchantRepository, setup.merchants
   end
 
+  def test_invoice_repo_is_pulled_in
+    assert_instance_of InvoiceRepository, setup.invoices
+  end
+
   def test_find_merchant_items_things
     assert_equal 3, setup.find_merchant_items(12334185).count
   end

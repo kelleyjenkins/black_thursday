@@ -1,5 +1,5 @@
-require_relative "transaction"
-require "csv"
+require_relative 'transaction'
+require 'csv'
 
 class TransactionRepository
   attr_reader :transactions, :sales_engine
