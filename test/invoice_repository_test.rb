@@ -31,6 +31,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
     assert_equal 12336161, instances[0].merchant_id
     assert_equal 1, instances.count
+    assert_nil setup.find_all_by_merchant_id(209304).first
   end
 
   def test_it_can_find_all_by_customer_id
@@ -42,5 +43,9 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_invoices_from_merchants
     assert_equal "Keckenbauer", setup.invoice_merchants(12334123).name
+  end
+
+  def test_find_by_status_of_invoice
+    assert_equal 12335938, setup.find_all_by_status(:pending).first.merchant_id
   end
 end

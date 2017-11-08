@@ -80,6 +80,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_golden_items
+    assert_instance_of Item, setup.golden_items.first
     assert_equal 263547824, setup.golden_items.first.id
     assert_equal 1, setup.golden_items.count
   end
