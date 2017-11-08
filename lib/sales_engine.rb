@@ -111,12 +111,12 @@ class SalesEngine
     end
   end
 
-  def find_merchant_ids_from_invoice(customer_id)
-    results = find_all_invoices_for_customer(customer_id).flatten
-    results.map do |result|
-      result.merchant_id
-    end
-  end
+  # def find_merchant_ids_from_invoice(customer_id)
+  #   results = find_all_invoices_for_customer(customer_id).flatten
+  #   results.map do |result|
+  #     result.merchant_id
+  #   end
+  # end
 
   def find_customer_merchant(customer_id)
     merchant_ids = find_merchant_ids_from_invoice(customer_id)
@@ -133,9 +133,13 @@ class SalesEngine
     end.sum.round(2)
     #possible refactor here to do dollar amount
   end
+  memoize :total_invoice_amount
+
 
   def find_invoice_items_for_invoice(invoice_id)
     invoice_items.find_all_by_invoice_id(invoice_id)
   end
+  memoize :find_invoice_items_for_invoice
+
 
 end

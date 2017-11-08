@@ -2,7 +2,6 @@ require_relative 'sales_engine'
 require_relative 'math'
 require 'memoize'
 require 'time'
-require 'pry'
 
 class SalesAnalyst
   include Math
@@ -160,6 +159,8 @@ class SalesAnalyst
     status_list = sales_engine.invoices.find_all_by_status(status).count
       (status_list.to_f / all * 100).round(2)
   end
+  memoize :invoice_status
+
 
   def total_revenue_by_date(date)
     time = date.to_s.split.first
@@ -169,6 +170,7 @@ class SalesAnalyst
       end
     end.compact.first.round(2)
   end
+  memoize :total_revenue_by_date
 
   def total_revenue_by_merchant(merchant_id)
     merchant_revenue = sales_engine.merchants.find_by_id(merchant_id).invoices
@@ -177,6 +179,7 @@ class SalesAnalyst
     #figure out test
     end
   end
+  memoize :total_revenue_by_merchant
 
   def add_merchant_to_merchant_total
     merchant_totals = {}
@@ -186,6 +189,7 @@ class SalesAnalyst
     merchant_totals
     #figure out test
   end
+  memoize :add_merchant_to_merchant_total
 
   def merchants_ranked_by_revenue
     earners = add_merchant_to_merchant_total.sort_by {|merchant, total| total}
@@ -193,41 +197,49 @@ class SalesAnalyst
       pair[0]
     end.reverse
   end
+  memoize :merchants_ranked_by_revenue
 
   def top_revenue_earners(x = 20)
     merchants_ranked_by_revenue.first(x)
   end
+  memoize :top_revenue_earners
 
   def merchants_with_pending_invoices
     sales_engine.merchants.merchants.find_all do |merchant|
       merchant.invoices.any? {|invoice| invoice.total == 0}
     end
   end
+  memoize :merchants_with_pending_invoices
 
   def merchants_with_only_one_item
     sales_engine.merchants.merchants.find_all do |merchant|
       merchant.items.count == 1
     end
   end
+  memoize :merchants_with_only_one_item
 
   def merchants_with_only_one_item_registered_in_month(month)
     merchants_with_only_one_item.find_all do |merchant|
       merchant.created_at.strftime("%B") == month
     end
   end
+  memoize :merchants_with_only_one_item_registered_in_month
 
   def revenue_by_merchant(merchant_id)
     total_revenue_by_merchant(merchant_id)
   end
+  memoize :revenue_by_merchant
 
   def seek_merchant_invoices(merchant_id)
     sales_engine.merchants.find_by_id(merchant_id).invoices
   end
+  memoize :seek_merchant_invoices
 
   def seek_paid_invoices(invoices)
     full_paid = invoices.find_all {|invoice| invoice.is_paid_in_full?}
     full_paid.map {|invoice| invoice.invoice_items}.flatten
   end
+  memoize :seek_paid_invoices
 
   def seek_item_quantity(paid_invoices)
     item_quantity = {}
@@ -236,16 +248,19 @@ class SalesAnalyst
     end
     item_quantity
   end
+  memoize :seek_item_quantity
 
   def sort_item_values(item_quantity)
     item_quantity.sort_by {|key, value| - value}
   end
+  memoize :seek_item_values
 
   def find_max_items(sorted)
     max_quantity = sorted.first[-1]
     maxes = sorted.find_all {|pair| pair[1] == max_quantity}
     maxes.map {|pair| sales_engine.items.find_by_id(pair[0])}
   end
+  memoize :find_max_items
 
   def most_sold_item_for_merchant(merchant_id)
     invoices = seek_merchant_invoices(merchant_id)
@@ -254,6 +269,7 @@ class SalesAnalyst
     sorted = sort_item_values(item_quantity)
     find_max_items(sorted)
   end
+  memoize :most_sold_item_for_merchant
 
   def seek_item_total(paid_invoices)
     item_total ={}
@@ -262,10 +278,12 @@ class SalesAnalyst
     end
     item_total
   end
+  memoize :seek_item_total
 
   def find_item_for_id(sorted)
     sorted.map {|pair| sales_engine.items.find_by_id(pair[0])}
   end
+  memoize :find_item_for_id
 
   def best_item_for_merchant(merchant_id)
     invoices = seek_merchant_invoices(merchant_id)
@@ -274,4 +292,6 @@ class SalesAnalyst
     sorted = sort_item_values(item_total)
     find_item_for_id(sorted).first
   end
+  memoize :best_item_for_merchant
+
 end

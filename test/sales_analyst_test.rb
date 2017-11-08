@@ -226,7 +226,6 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_can_find_most_sold_item_by_merchant
-
     files = ({:items => "./data/items.csv",
               :merchants => "./data/merchants.csv",
               :invoices => "./data/invoices.csv",
@@ -239,7 +238,7 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 2, s_a.most_sold_item_for_merchant(12334194).count
   end
 
-  def test_it_can_find_most_sold_item_by_merchant
+  def test_it_can_find_best_item_by_merchant
     files = ({:items => "./data/items.csv",
               :merchants => "./data/merchants.csv",
               :invoices => "./data/invoices.csv",
