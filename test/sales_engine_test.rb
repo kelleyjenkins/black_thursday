@@ -69,10 +69,12 @@ class SalesEngineTest < Minitest::Test
       :transactions => "./data/transactions.csv",
       :customers => "./data/customers.csv"})
     se = SalesEngine.from_csv(files)
+
     assert_instance_of Customer, se.find_merchant_customer(12334115).first
   end
 
   def test_find_merchant_ids_from_invoices
+    assert_instance_of Array, setup.find_merchant_ids_from_invoice(3)
     assert_equal 12335955, setup.find_merchant_ids_from_invoice(3).first
   end
 
@@ -92,7 +94,9 @@ class SalesEngineTest < Minitest::Test
       :transactions => "./test/fixture/transaction_fixture.csv",
       :customers => "./data/customers.csv"})
     se = SalesEngine.from_csv(files)
+
     assert_instance_of Merchant, se.find_customer_merchant(5).first
+    assert_equal "WoodlandGroup", se.find_customer_merchant(5).first.name
   end
 
 end

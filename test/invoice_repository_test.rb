@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require_relative '../lib/invoice_repository'
+require_relative '../lib/sales_engine'
 
 class InvoiceRepositoryTest < Minitest::Test
   def setup
@@ -37,5 +38,9 @@ class InvoiceRepositoryTest < Minitest::Test
 
     assert_equal 7, instances[0].customer_id
     assert_equal 4, instances.count
+  end
+
+  def test_invoices_from_merchants
+    assert_equal "Keckenbauer", setup.invoice_merchants(12334123).name
   end
 end

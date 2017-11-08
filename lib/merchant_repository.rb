@@ -1,5 +1,5 @@
-require_relative "merchant"
-require "csv"
+require_relative 'merchant'
+require 'csv'
 
 class MerchantRepository
   attr_reader :merchants, :sales_engine

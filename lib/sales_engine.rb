@@ -111,13 +111,6 @@ class SalesEngine
     end
   end
 
-  # def find_merchant_ids_from_invoice(customer_id)
-  #   results = find_all_invoices_for_customer(customer_id).flatten
-  #   results.map do |result|
-  #     result.merchant_id
-  #   end
-  # end
-
   def find_customer_merchant(customer_id)
     merchant_ids = find_merchant_ids_from_invoice(customer_id)
     merchant_ids.map do |merchant_id|

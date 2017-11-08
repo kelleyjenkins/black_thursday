@@ -1,5 +1,5 @@
-require_relative "invoice"
-require "csv"
+require_relative 'invoice'
+require 'csv'
 
 class InvoiceRepository
   attr_reader :invoices, :sales_engine

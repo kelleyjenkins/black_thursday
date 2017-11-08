@@ -18,10 +18,12 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_pulls_csv_info_from_merchants_fixture
+    assert_instance_of MerchantRepository, setup
     assert_equal 18, setup.all.count
   end
 
   def test_it_returns_array_of_all_merchants
+    assert_equal "Shopin1901", setup.all.first.name
     assert_equal 18, setup.all.count
   end
 
@@ -33,10 +35,16 @@ class MerchantRepositoryTest < Minitest::Test
   def test_it_can_find_by_name
     merch_name = setup.find_by_name("Candisart")
     assert_equal "Candisart", merch_name.name
+
+    merch_name = setup.find_by_name("KatysKnits")
+    assert_nil merch_name
   end
 
   def test_it_can_find_all_by_fragment_of_name
     merch_name = setup.find_all_by_name("candi")
     assert_equal 1, merch_name.count
+
+    merch_name = setup.find_all_by_name("kell")
+    assert merch_name.empty?
   end
 end
