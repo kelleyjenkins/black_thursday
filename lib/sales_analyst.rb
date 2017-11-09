@@ -88,7 +88,6 @@ class SalesAnalyst
   end
   memoize :std_dev_item_price
 
-
   def golden_items
     std_deviation = std_dev_item_price
     sales_engine.items.items.select do |item|
@@ -104,7 +103,6 @@ class SalesAnalyst
   end
   memoize :average_invoices_per_merchant
 
-
   def average_invoices_per_merchant_standard_deviation
     counts = counts_per_merchant(sales_engine.method(:find_merchant_invoices))
     standard_deviation(counts)
@@ -119,7 +117,6 @@ class SalesAnalyst
     end
   end
   memoize :top_merchants_by_invoice_count
-
 
   def bottom_merchants_by_invoice_count
     counts = counts_per_merchant(sales_engine.method(:find_merchant_invoices))
@@ -161,7 +158,6 @@ class SalesAnalyst
   end
   memoize :invoice_status
 
-
   def total_revenue_by_date(date)
     time = date.to_s.split.first
     sales_engine.invoices.invoices.map do |invoice|
@@ -176,7 +172,6 @@ class SalesAnalyst
     merchant_revenue = sales_engine.merchants.find_by_id(merchant_id).invoices
     merchant_revenue.reduce(0) do |sum, invoice|
       sum + invoice.total
-    #figure out test
     end
   end
   memoize :total_revenue_by_merchant
@@ -187,7 +182,6 @@ class SalesAnalyst
       merchant_totals[merchant] = total_revenue_by_merchant(merchant.id)
     end
     merchant_totals
-    #figure out test
   end
   memoize :add_merchant_to_merchant_total
 
@@ -293,5 +287,4 @@ class SalesAnalyst
     find_item_for_id(sorted).first
   end
   memoize :best_item_for_merchant
-
 end

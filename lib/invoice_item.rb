@@ -3,7 +3,7 @@ require 'bigdecimal'
 
 class InvoiceItem
   attr_reader :invoice_items, :id, :item_id, :invoice_id, :quantity,
-  :unit_price, :created_at, :updated_at, :invoice_item_repo
+    :unit_price, :created_at, :updated_at, :invoice_item_repo
 
   def initialize(invoice_items, invoice_item_repo)
     @id = invoice_items[:id].to_i

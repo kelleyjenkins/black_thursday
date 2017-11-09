@@ -3,14 +3,8 @@ require 'memoize'
 
 class Invoice
   extend Memoize
-  attr_reader :invoice,
-              :id,
-              :customer_id,
-              :merchant_id,
-              :status,
-              :created_at,
-              :updated_at,
-              :invoice_repo
+  attr_reader :invoice, :id, :customer_id, :merchant_id, :status,
+              :created_at, :updated_at, :invoice_repo
 
   def initialize(invoice, invoice_repo)
     @id = invoice[:id].to_i
@@ -44,7 +38,6 @@ class Invoice
     end
   end
   memoize :is_paid_in_full?
-
 
   def total
     if is_paid_in_full?

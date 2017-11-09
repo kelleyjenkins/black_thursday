@@ -9,6 +9,7 @@ require 'csv'
 
 class SalesEngine
   extend Memoize
+  
   def self.from_csv(files)
     items = files[:items]
     merchants = files[:merchants]

@@ -44,5 +44,4 @@ class ItemTest < Minitest::Test
   def test_description_returns_correct_description
     assert_equal "frames", setup.description
   end
-
 end

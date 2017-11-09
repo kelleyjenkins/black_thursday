@@ -16,5 +16,4 @@ class Customer
   def merchants
     customer_repo.merchant_customers(self.id)
   end
-
 end
